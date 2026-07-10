@@ -12,7 +12,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-print(type(frames[0]))
-print(frames[0].timestamp)
-print(frames[0].index)
