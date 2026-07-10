@@ -1,8 +1,7 @@
 from pathlib import Path
 
-import cv2
-
 from core.video.video_loader import VideoLoader
+from core.video.frame_extractor import FrameExtractor
 
 
 OUTPUT = Path("output/frames")
@@ -10,36 +9,24 @@ OUTPUT = Path("output/frames")
 
 def main():
 
-    OUTPUT.mkdir(
-        parents=True,
-        exist_ok=True
-    )
+    video = VideoLoader("input/video.mp4")
 
-    video = VideoLoader(
-        "input/video.mp4"
-    )
+    extractor = FrameExtractor(video)
 
-    frames = video.get_frames_between(
+    frames = extractor.extract_between(
         23,
         25
     )
 
     print(f"{len(frames)} frame bulundu.")
 
-    for i, frame in enumerate(frames):
-
-        filename = OUTPUT / f"frame_{i:04}.png"
-
-        cv2.imwrite(
-            str(filename),
-            frame
-        )
-
-    print("Frame'ler kaydedildi.")
+    extractor.save_frames(
+        frames,
+        OUTPUT
+    )
 
     video.release()
 
 
 if __name__ == "__main__":
-
     main()
